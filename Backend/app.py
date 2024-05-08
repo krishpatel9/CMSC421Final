@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import re
 from gensim.models import KeyedVectors
 from flask import Flask, request, jsonify

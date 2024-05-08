@@ -16,7 +16,7 @@ function App() {
       method: "POST",
       headers: {
         "x-rapidapi-host": "textvis-word-cloud-v1.p.rapidapi.com",
-        "x-rapidapi-key": "a49c7d1f1dmshc127092f3027bb4p1e371bjsn52d3175260e4",
+        "x-rapidapi-key": "53f2caf8e1msh31d325de77c144ap1b2e81jsn6aa549374d90",
         "content-type": "application/json",
         accept: "application/json"
       },
@@ -55,7 +55,7 @@ function App() {
         url: inputURL || null,
         ratio: ratio,
       });
-      const summaryText = response.data.summary;
+      const summaryText = response.data.original_text;
       setSummary(response.data.summary);
       setSentenceRanking(response.data.sentence_ranking);
       makecloud(summaryText)
@@ -110,6 +110,8 @@ function App() {
             <li key={index}>{sentence}</li>
           ))}
         </ol>
+        <h2>Word Cloud</h2>
+        <p>Below we created a word cloud, which visualizes the most important words that appear within the text.</p>
         <img id="wordCloud" />
       </main>
     </div>
