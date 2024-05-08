@@ -109,13 +109,21 @@ def simple_summarize(text=None, url=None, ratio=0.5):
     summary = summarize(sentences, i_rank[:n])
     return summary, s_rank
 
-def get_keywords(text=None, url=None, n=10): # someone kill me
+stopwords = set(pd.read_json('custom_stopwords_en.json').to_numpy().T[0])
+def remStopTokenize(text):
+  tokens = []
+  for i in text.split():
+    if not i in stopwords:
+      tokens.append(i)
+  return tokens
+
+def get_keywords(text=None, url=None, n=10): 
     if url:
         text = extract_main_content(url)
 
     words = re.findall(r'\w+.*?[.?! ]', pre_process(text), flags=re.S)
     words = [i.replace(' ', '') for i in words]
-    cands = tokenize(pre_process(text))
+    cands = remStopTokenize(pre_process(text))
     new_cands = []
     i, j = 0, 0
     while i < len(words) - 1:
@@ -134,18 +142,16 @@ def get_keywords(text=None, url=None, n=10): # someone kill me
     candidates = {i: j for i, j in collections.Counter(new_cands).items() if j > 1}
     filter = '.'.join(candidates.keys()) + '.'
     candidates = {i: j for i, j in candidates.items() if not (i+' ' in filter or ' '+i in filter or len(i)< 3)}
-    keywords = sorted(candidates, key=candidates.get, reverse=True)
-    return keywords[:n]
+    new_cands =  [i for i in new_cands if i in candidates]
+    candidates = list(candidates.keys())
 
-# @app.route('/summarize', methods=['POST'])
-# def summarize_text():
-#     data = request.get_json()
-#     summary, sentence_ranking = simple_summarize(
-#         text=data.get('text'),
-#         url=data.get('url'),
-#         ratio=data['ratio']
-#     )
-#     return jsonify({"summary": summary})
+    co_matrix = np.zeros([len(candidates),len(candidates)]) 
+    for i,word in enumerate(new_cands):
+        for j in range(max(i-1,0),min(i+1,len(candidates))):
+            co_matrix[candidates.index(word),candidates.index(new_cands[j])]+=1
+    score = np.sum(co_matrix, axis = 0)
+    topi = np.argsort(score)[::-1]
+    return [candidates[i] for i in topi][:n]
 
 @app.route('/summarize', methods=['POST'])
 def summarize_text():
