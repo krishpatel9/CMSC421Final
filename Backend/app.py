@@ -137,6 +137,16 @@ def get_keywords(text=None, url=None, n=10): # someone kill me
     keywords = sorted(candidates, key=candidates.get, reverse=True)
     return keywords[:n]
 
+# @app.route('/summarize', methods=['POST'])
+# def summarize_text():
+#     data = request.get_json()
+#     summary, sentence_ranking = simple_summarize(
+#         text=data.get('text'),
+#         url=data.get('url'),
+#         ratio=data['ratio']
+#     )
+#     return jsonify({"summary": summary})
+
 @app.route('/summarize', methods=['POST'])
 def summarize_text():
     data = request.get_json()
@@ -145,7 +155,8 @@ def summarize_text():
         url=data.get('url'),
         ratio=data['ratio']
     )
-    return jsonify({"summary": summary})
+    return jsonify({"summary": summary, "sentence_ranking": sentence_ranking})
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
