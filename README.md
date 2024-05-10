@@ -3,7 +3,7 @@ This Github Contains all of our code for the CMSC421 Final Project Spring 2024.
 This Repository is split up into two sections: The Frontend and Backend
 
   Frontend:         The Frontend is a React JS project that is currently hosted on AWS using a S3 bucket. 
-                    This can be accessed at the link : [http://text-summarizer-bucket.s3-website-us-east-1.amazonaws.com/](url)
+                    This can be accessed at the link: http://text-summarizer-bucket.s3-website-us-east-1.amazonaws.com/
 
   Backend: We have two files for the backend, make_model.py and app.py
   
