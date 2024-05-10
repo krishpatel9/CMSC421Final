@@ -4,7 +4,7 @@ This Repository is split up into two sections: The Frontend and Backend
 
   Frontend:         The Frontend is a React JS project that is currently hosted on AWS using a S3 bucket. 
                     This can be accessed at the link: http://text-summarizer-bucket.s3-website-us-east-1.amazonaws.com/
-                    This can be ran using the command "npm start"
+                    .This can be ran using the command "npm start"
 
   Backend: We have two files for the backend, make_model.py and app.py
   
